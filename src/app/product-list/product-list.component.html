@@ -1,0 +1,91 @@
+<h3> Below is the Menu you Requestes!</h3>
+
+<form [formGroup]="productSelector" (ngSubmit)="onSubmit(productSelector.value)">
+    <div>
+        <select formControlName="mainItem" (change)="changeProduct($event)">
+            <option *ngFor="let item of cartItem" [ngValue]="item">{{item}}</option>
+        </select>
+    </div>
+</form>
+<div *ngIf="showBurgerMenu">
+    <h1>Menu for Burger</h1>
+    <form [formGroup]="burgerMenu" (ngSubmit)="onSubmit(burgerMenu.value)">
+        <div>
+            <div><h2>Condiments:</h2></div>
+            <div *ngFor="let data of burgerCheckBox; let i=index">
+                <input type="checkbox" [value]="data.name" (change)="onCheckboxChange($event)" /> {{data.name}}
+            </div>
+            <p class="error" *ngIf="this.burgerMenu.controls['checkArray'].errors?.required">
+                Atleast One Condiments is required.
+            </p>
+            <div><h2>Choice of Sides:</h2></div>
+            <div>
+                <div *ngFor="let data of burgerSides; let i=index">
+                    <input type="radio" formControlName="sides" value={{data.name}} (change)="choseBurgerSides(data.name)"/> {{data.name}}
+                </div>
+            </div>
+            <div *ngIf="showBurgerFries">
+                <select formControlName="options" (change)="choseBurgerOptions($event)">
+                    <option *ngFor="let item of burgerSides[0].options" [ngValue]="item">{{item}}</option>
+                </select>
+            </div>
+            <div *ngIf="showSalad">
+                <select formControlName="options" (change)="choseBurgerOptions($event)">
+                    <option *ngFor="let item of burgerSides[1].options" [ngValue]="item">{{item}}</option>
+                </select>
+            </div>
+            <div>
+                <div><h3>Order Count:</h3></div>
+                <div><input type='number' formControlName='numberOfOrder'/></div>
+            </div>
+            <p class="error" *ngIf="this.burgerMenu.controls['numberOfOrder'].errors?.min">
+                Atleast One Order is required.
+            </p>
+            <div>
+                <div><h3>Any Special Requirements. Just Type is here. Over Manager will make sure it is processed.</h3></div>
+                <div><textarea formControlName="special" row=60 cols=50></textarea></div>
+            </div>
+        </div>
+        <button type='submit'>Order</button>
+    </form>
+</div>
+<div *ngIf="showSteakMenu">
+    <h1>Menu for Steak</h1>
+    <form [formGroup]="steakMenu" (ngSubmit)="onSubmit(steakMenu.value)">
+        <div>
+            <label>Doneness:</label>
+            <select formControlName="doneness" (change)="changeDoneness($event)">
+                <option *ngFor="let item of steakDoneness" [ngValue]="item">{{item}}</option>
+            </select>
+        </div>
+        <div>
+            <div *ngFor="let data of steakSides; let i=index">
+                <input type="radio" formControlName="sides" value={{data.name}} (change)="choseSteakSides(data.name)"/> {{data.name}}
+            </div>
+            <div *ngIf="showSalad">
+                <select formControlName="options" (change)="choseSteakOptions($event)" >
+                    <option *ngFor="let item of steakSides[0].options" [ngValue]="item">{{item}}</option>
+                </select>
+            </div>
+            <div *ngIf="showSteakPotato">
+              <input type="number" formControlName="potatoCount"/>
+              <p class="error" *ngIf="this.steakMenu.controls['potatoCount'].errors?.min">
+                Atleast One Potato is Required.
+            </p>
+            </div> 
+            
+        </div>
+        <div>
+            <div><h3>Order Count:</h3></div>
+            <div><input type='number' formControlName='numberOfOrder'/></div>
+        </div>
+        <p class="error" *ngIf="this.steakMenu.controls['numberOfOrder'].errors?.min">
+            Atleast One Order is required.
+        </p>
+        <div>
+            <div><h3>Any Special Requirements. Just Type is here. Over Manager will make sure it is processed.</h3></div>
+            <div><textarea formControlName="special" row=60 cols=50></textarea></div>
+        </div>
+        <button type='submit'>Order</button>
+    </form>
+</div>

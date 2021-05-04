@@ -1,0 +1,31 @@
+<h3>Cart</h3>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Sides</th>
+        <th>Options</th>
+        <th>Comments</th>
+        <th>Price</th>
+        <th>Quntity</th>
+        <th>Quntity × Price</th>
+        <th>Action</th>
+    </tr>
+    <tr *ngFor="let item of items; let i=index">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.sides}}</td>
+        <td>{{item.options}}</td>
+        <td>{{item.special}}</td>
+        <td>{{item.price | currency}}</td>
+        <td>{{item.numberOfOrder}}</td>
+        <td>{{item.price * item.numberOfOrder}}</td>
+        <td><button (click)="removeProduct(item)">remove</button></td>
+    </tr>
+    <tr>
+        <td colspan="8">{{totalPrice | currency}}</td>
+    </tr>
+</table>
+
+<div><button (click)="EmptyCart()">Empty Cart</button></div>
